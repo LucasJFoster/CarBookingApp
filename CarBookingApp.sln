@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarBookingApp", "CarBookingApp\CarBookingApp.csproj", "{FC5D2909-7058-4BCE-A6EB-B18D25B8366A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarBookingApp.Data", "CarBookingApp.Data\CarBookingApp.Data.csproj", "{6F48CCB5-1859-4690-B192-C47E59A109E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarBookingApp.Data", "CarBookingApp.Data\CarBookingApp.Data.csproj", "{6F48CCB5-1859-4690-B192-C47E59A109E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
