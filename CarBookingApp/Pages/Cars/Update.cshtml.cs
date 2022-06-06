@@ -10,11 +10,11 @@ using CarBookingApp.Data;
 
 namespace CarBookingApp.Pages.Cars
 {
-    public class EditModel : PageModel
+    public class UpdateModel : PageModel
     {
         private readonly CarBookingApp.Data.CarBookingAppDbContext _context;
 
-        public EditModel(CarBookingApp.Data.CarBookingAppDbContext context)
+        public UpdateModel(CarBookingApp.Data.CarBookingAppDbContext context)
         {
             _context = context;
         }
@@ -22,21 +22,19 @@ namespace CarBookingApp.Pages.Cars
         [BindProperty]
         public Car Car { get; set; }
 
-        public SelectList Makes { get; set; }
-        public SelectList Models { get; private set; }
-        public SelectList Colours { get; private set; }
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             Car = await _context.Cars.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Car == null)
             {
                 return NotFound();
             }
-
-            await LoadInitialData();
-
             return Page();
         }
 
@@ -46,7 +44,6 @@ namespace CarBookingApp.Pages.Cars
         {
             if (!ModelState.IsValid)
             {
-                await LoadInitialData();
                 return Page();
             }
 
@@ -70,15 +67,6 @@ namespace CarBookingApp.Pages.Cars
 
             return RedirectToPage("./Index");
         }
-
-
-        private async Task LoadInitialData()
-        {
-            Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");
-            Models = new SelectList(await _context.CarModels.ToListAsync(), "Id", "Name");
-            Colours = new SelectList(await _context.Colours.ToListAsync(), "Id", "Name");
-        }
-
 
         private bool CarExists(int id)
         {

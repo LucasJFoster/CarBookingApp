@@ -22,21 +22,17 @@ namespace CarBookingApp.Pages.Cars
 
         public async Task OnGetAsync()
         {
-            Cars = await _context.Cars
-                .Include(q => q.Make)
-                .Include(q => q.CarModel)
-                .Include(q => q.Colour)
-                .ToListAsync();
+            Cars = await _context.Cars.ToListAsync();
         }
 
-        public async Task<IActionResult> OnPostDelete(int? recordid)
+        public async Task<IActionResult> OnPostDelete(int? carid)
         {
-            if (recordid == null)
+            if (carid == null)
             {
                 return NotFound();
             }
 
-            var car = await _context.Cars.FindAsync(recordid);
+            var car = await _context.Cars.FindAsync(carid);
 
             if (car != null)
             {

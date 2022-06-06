@@ -28,7 +28,7 @@ namespace CarBookingApp.Pages.Cars
                 return NotFound();
             }
 
-            Car = await _context.Cars.Include(q => q.Make).FirstOrDefaultAsync(m => m.Id == id);
+            Car = await _context.Cars.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Car == null)
             {
