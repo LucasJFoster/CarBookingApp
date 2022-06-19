@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CarBookingApp.Data;
+using CarBookingApp.Repositories.Contracts;
 
 namespace CarBookingApp.Pages.CarModels
 {
@@ -15,17 +16,18 @@ namespace CarBookingApp.Pages.CarModels
 
         public IndexModel(CarBookingApp.Data.CarBookingAppDbContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
-        public IList<CarModel> CarModel { get;set; }
+        public IList<CarModel> CarModel { get; set; }
+      
 
         public async Task OnGetAsync()
         {
             CarModel = await _context.CarModels.ToListAsync();
         }
 
-        public async Task<IActionResult> OnPostDelete(int? recordid)
+        public async Task<IActionResult> OnPostDelezte(int? recordid)
         {
             if (recordid == null)
             {

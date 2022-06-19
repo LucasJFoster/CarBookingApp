@@ -1,4 +1,6 @@
 using CarBookingApp.Data;
+using CarBookingApp.Repositories.Contracts;
+using CarBookingApp.Repositories.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +33,10 @@ namespace CarBookingApp
                     Configuration.GetConnectionString("DefaultConnection"));
 
             });
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<ICarsModelsRepository, CarModelsRepository>();
+            services.AddScoped<ICarsRepository, CarsRepository>();
 
             services.AddRazorPages();
         }

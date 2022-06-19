@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CarBookingApp.Data;
+using CarBookingApp.Repositories.Contracts;
 
 namespace CarBookingApp.Pages.CarModels
 {
     public class EditModel : PageModel
     {
-        private readonly CarBookingApp.Data.CarBookingAppDbContext _context;
 
-        public EditModel(CarBookingApp.Data.CarBookingAppDbContext context)
+        private readonly IGenericRepository<CarModel> _CarModelrepository;
+        private readonly IGenericRepository<Make> _makesrepository;
+
+        public EditModel (IGenericRepository<CarModel> CarModelrepository, IGenericRepository<Make> Makesrepository)
         {
-            _context = context;
+            this._CarModelrepository = CarModelrepository;
+            this._makesrepository = Makesrepository;
         }
 
         [BindProperty]
@@ -30,7 +34,7 @@ namespace CarBookingApp.Pages.CarModels
                 return NotFound();
             }
 
-            CarModel = await _context.CarModels.FirstOrDefaultAsync(m => m.Id == id);
+            CarModel = await _CarModelrepository.Get(id.Value);
 
             if (CarModel == null)
             {
@@ -50,15 +54,13 @@ namespace CarBookingApp.Pages.CarModels
                 return Page();
             }
 
-            _context.Attach(CarModel).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _CarModelrepository.Update(CarModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarModelExists(CarModel.Id))
+                if (!await CarModelExistsAsync(CarModel.Id))
                 {
                     return NotFound();
                 }
@@ -73,12 +75,12 @@ namespace CarBookingApp.Pages.CarModels
 
         private async Task LoadInitialData()
         {
-            Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");
+            Makes = new SelectList(await _makesrepository.GetAll(), "Id", "Name");
         }
 
-        private bool CarModelExists(int id)
+        private async Task<bool> CarModelExistsAsync(int id)
         {
-            return _context.CarModels.Any(e => e.Id == id);
+            return await _CarModelrepository.Exists(id);
         }
     }
 }

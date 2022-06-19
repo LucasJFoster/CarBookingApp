@@ -28,10 +28,15 @@
             </td>
             <td>
                 @await Html.PartialAsync("_IndexButtonsPartial",item.Id)
-                <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?')" asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i>
-                     Delete   </a>
+               
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+<partial name="_IndexDeleteFormPartial" />
+     @section Scripts{
+         <script src="~/js/IndexDeleteButtonScript.js"></script>
+     }
