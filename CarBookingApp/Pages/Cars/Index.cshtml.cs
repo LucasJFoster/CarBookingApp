@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CarBookingApp.Data;
 using CarBookingApp.Repositories.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarBookingApp.Pages.Cars
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ICarsRepository _repository;
